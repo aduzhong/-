@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>近代哲学·选择即存在</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: #0f1220;
+      color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+    .card {
+      background: #1b1f3b;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+    }
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      border: none;
+      background: #2d325f;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover {
+      background: #3a4090;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    .result {
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    .philosopher {
+      margin-top: 12px;
+      font-style: italic;
+      opacity: 0.85;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.6;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>选择即存在</h1>
+    <div class="subtitle">一个关于近代哲学的小型互动游戏</div>
+
+    <div class="card" id="game"></div>
+
+    <footer>
+      Made for GitHub · MIT License
+    </footer>
+  </div>
+
+  <script>
+    const gameEl = document.getElementById('game');
+
+    const scenes = [
+      {
+        question: '你醒来，世界已经在运转。你首先感受到的是：',
+        options: [
+          { text: '我必须为自己负责', result: '你已经进入了存在主义的视角。自由并非礼物，而是负担。', philosopher: 'Jean-Paul Sartre' },
+          { text: '我需要先理解这个世界', result: '你选择了理性之路。世界必须先被理解，才能被行动。', philosopher: 'René Descartes' }
+        ]
+      },
+      {
+        question: '他人看着你时，你感到：',
+        options: [
+          { text: '羞耻与被定义', result: '他人的目光让你意识到自我并不封闭。你正在被观看。', philosopher: 'Sartre · The Look' },
+          { text: '这是社会权力的一部分', result: '你意识到观看本身是一种结构性的力量。', philosopher: 'Michel Foucault' }
+        ]
+      },
+      {
+        question: '当语言无法准确表达你的体验时，你会：',
+        options: [
+          { text: '保持沉默', result: '不可言说之物，只能被展示，而不能被说出。', philosopher: 'Ludwig Wittgenstein' },
+          { text: '继续拆解语言', result: '意义来自使用，问题在于我们如何玩这场语言游戏。', philosopher: 'Later Wittgenstein' }
+        ]
+      }
+    ];
+
+    let index = 0;
+
+    function renderScene() {
+      const scene = scenes[index];
+      if (!scene) {
+        gameEl.innerHTML = `<div class="result">\n          游戏结束。\n          <br/><br/>\n          你并没有得到一个答案，而是经历了一系列立场。\n          <br/><br/>\n          <strong>这正是近代哲学。</strong>\n        </div>`;
+        return;
+      }
+
+      gameEl.innerHTML = `
+        <div class="question">${scene.question}</div>
+        ${scene.options.map((opt, i) => `<button onclick="choose(${i})">${opt.text}</button>`).join('')}
+      `;
+    }
+
+    window.choose = function(i) {
+      const opt = scenes[index].options[i];
+      gameEl.innerHTML = `
+        <div class="result">${opt.result}</div>
+        <div class="philosopher">— ${opt.philosopher}</div>
+        <br/>
+        <button onclick="next()">继续</button>
+      `;
+    };
+
+    window.next = function() {
+      index++;
+      renderScene();
+    };
+
+    renderScene();
+  </script>
+</body>
+</html>
